@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Season {{ year }} Overview</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+    <h1>Scottish Premiership: Season {{ year }}</h1>
+<!-- Class to show the photos of the best players of the season -->	
+<div class="awards-section">
+		<h4>Champions</h4>
+		<div class="champions">
+			<p>{{ awards.champions.name }}</p>
+			<img src="{{ url_for('static', filename='images/players/' ~ awards.champions.photo_file) }}" alt="{{ awards.champions.name }}">
+		</div>
+		
+        <div class="awards-row">
+			<div class="award">
+				<h4>Top Scorer</h4>
+				<p>{{ awards.top_scorer.name }} ({{ awards.top_scorer.goals }} goals)</p>
+				<img src="{{ url_for('static', filename='images/players/' ~ awards.top_scorer.photo_file) }}" alt="{{ awards.top_scorer.name }}">
+			</div>
+			<div class="award">
+				<h4>Most Assists</h4>
+				<p>{{ awards.most_assists.name }} ({{ awards.most_assists.assists }} assists)</p>
+				<img src="{{ url_for('static', filename='images/players/' ~ awards.most_assists.photo_file) }}" alt="{{ awards.most_assists.name }}">
+			</div>
+			<div class="award">
+				<h4>Most Clean Sheets</h4>
+				<p>{{ awards.most_clean_sheets.name }} ({{ awards.most_clean_sheets.clean_sheets }} clean sheets)</p>
+				<img src="{{ url_for('static', filename='images/players/' ~ awards.most_clean_sheets.photo_file) }}" alt="{{ awards.most_clean_sheets.name }}">
+			</div>
+			<div class="award">
+				<h4>Player of the Year</h4>
+				<p>{{ awards.player_of_the_year.name }}</p>
+				<img src="{{ url_for('static', filename='images/players/' ~ awards.player_of_the_year.photo_file) }}" alt="{{ awards.player_of_the_year.name }}">
+			</div>
+		</div>
+	</div>
+	<!-- Table with holds premiership standings stats -->
+    <table>
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Team</th>
+				<th>Wins</th>
+				<th>Draws</th>
+				<th>Losses</th>
+                <th>Goals Scored</th>
+                <th>Goals Conceded</th>
+                <th>Goal Difference</th>
+				<th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr class="{% if loop.index == loop.length %}bottom-row{% elif loop.index == loop.length - 1 %}second-bottom-row{% endif %}">
+                <td>{{ loop.index }}</td>
+                <td><a href="/team/{{ team.name }}/{{ year }}">{{ team.name }}</a></td>
+				<td>{{ team.wins }}</td>
+				<td>{{ team.draws }}</td>
+				<td>{{ team.losses }}</td>
+                <td>{{ team.goals_scored }}</td>
+                <td>{{ team.goals_conceded }}</td>
+                <td>{{ team.goals_scored - team.goals_conceded }}</td>    
+				<td>{{ team.points }}</td>
+            </tr>
+			{% if loop.index == 6%}
+			<tr>
+				<td colspan="9" style="text-align: center; font-weight: bold; background-color: #f2f2f2;">SPLIT</td> <!-- Adds a split in the table to represent table after premiership split -->
+			</tr>
+			{% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+	<!-- Navigation arrows to switch between seasons -->	
+	<div class="navigation-arrows">
+		{% if prev_season %}
+			<a href="{{ url_for('season_overview', year=prev_season) }}" class="nav-button prev-button">&laquo; Previous Season</a>
+		{% endif %}
+		{% if next_season %}
+			<a href="{{ url_for('season_overview', year=next_season) }}" class="nav-button next-button">Next Season &raquo;</a>
+		{% endif %}
+	</div>
+    <a href="/">Back to Home</a>
+</body>
+</html>
+
+

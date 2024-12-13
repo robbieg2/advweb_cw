@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPFL Encyclopedia</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+	<div class="home-page">
+	<header class="banner">
+		<h1>Scottish Premiership Encyclopedia</h1>
+		<p>Select a season to explore:</p>
+	</header>
+	<main class="seasons-list">
+		 {% for year in seasons %}
+         <a href="/season/{{ year }}" class="season-card">Season {{ year }}</a>
+        {% endfor %}
+    </main>
+	<div class="image-row">
+		<img src="{{ url_for('static', filename='images/players/mccoist.png') }}" alt="Ally McCoist" class="row-image">
+		<img src="{{ url_for('static', filename='images/players/riordan.png') }}" alt="Derek Riordan" class="row-image">
+		<img src="{{ url_for('static', filename='images/trophy.png') }}" alt="SPFL Trophy" class="row-image trophy">
+		<img src="{{ url_for('static', filename='images/players/larsson.png') }}" alt="Henrik Larsson" class="row-image">
+		<img src="{{ url_for('static', filename='images/players/leighton.png') }}" alt="Jim Leighton" class="row-image">
+	</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ team_name }} - {{ season }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="team-stats-page">
+        <div class="team-header">
+            <img src="/static/images/badges/{{ team_badge }}.png" alt="{{ team_name }} Badge" class="team-badge">
+            <h1 class="team-name">{{ team_name }}  {{ season }}</h1>
+        </div>
+		<!-- Class to show team's stats for specific season -->
+        <div class="team-summary">
+            <h2>Summary</h2>
+            <ul>
+                <li>Points: {{ summary.points }}</li>
+                <li>Wins: {{ summary.wins }}</li>
+                <li>Draws: {{ summary.draws }}</li>
+                <li>Losses: {{ summary.losses }}</li>
+            </ul>
+        </div>
+		<!-- Table which holds every indiviudal player's stats -->
+        <div class="team-stats">
+            <h2>Player Stats</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kit Number</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Nationality</th>
+                        <th>Position</th>
+                        <th>Apps</th>
+                        <th>Starts</th>
+                        <th>Goals</th>
+                        <th>Assists</th>
+                        <th>Yellow Cards</th>
+                        <th>Red Cards</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players %}
+                    <tr>
+                        <td>{{ player.kit_number }}</td>
+                        <td>{{ player.name }}</td>
+                        <td>{{ player.age }}</td>
+                        <td>{{ player.nationality }}</td>  
+                        <td>{{ player.position }}</td>
+                        <td>{{ player.apps }}</td>
+                        <td>{{ player.starts }}</td>
+                        <td>{{ player.goals }}</td>
+                        <td>{{ player.assists }}</td>
+                        <td>{{ player.yellow_cards }}</td>
+                        <td>{{ player.red_cards }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+		<!-- Navigation arrows to switch between the club's seasons -->
+        <div class="navigation-arrows">
+            {% if prev_season %}
+                <a href="{{ url_for('team_stats', team_name=team_name, season=prev_season) }}" class="nav-button prev-button">&laquo; Previous Season</a>
+            {% endif %}
+            {% if next_season %}
+                <a href="{{ url_for('team_stats', team_name=team_name, season=next_season) }}" class="nav-button next-button">Next Season &raquo;</a>
+            {% endif %}
+        </div>
+
+        <a href="/season/{{ season }}">Back to Season Overview</a>
+    </div>
+</body>
+</html>
